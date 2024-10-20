@@ -1,18 +1,20 @@
+from Utils.dashboard import dashboard
+from Utils.llmModel import llmModel
 from Utils.login import login
-from behave import given, when, then
+from behave import given
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from commons.Commons import Commons
 
-@given("I login to the Karini AI webiste with email {email} and password {password}")
+@given('I login to the Karini AI website with email "{email}" and password "{password}"')
 def loginmethod(context, email, password):
-    log = login(context)
+    log = login(context.driver)
     log.enterEmailID(email, password)
 
 
-@given(u'I launch the chrome brower and open Karini AI')
+@given('I launch the chrome browser and open Karini AI')
 def launchbrowser(context):
     chrome_options = Options()
     chrome_options.add_argument("--incognito")
@@ -24,40 +26,37 @@ def launchbrowser(context):
 
 
 @given('I click on Model Hub Icon')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I click on Model Hub Icon')
+def clickOnModelHub(context):
+    dash = dashboard(context.driver)
+    dash.selectModelHubIcon()
 
 
 @given('I go the LLM end points')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I go the LLM end points')
+def goToLLM(context):
+    dash = dashboard(context.driver)
+    dash.selectLLMEndPoint()
 
 
 @given('I add a new model')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I add a new model')
+def addNewModel(context):
+    dash = dashboard(context.driver)
+    dash.addNewModel()
 
 
-@given('I create model with details as ModelName "OPENAI GPT 4O Mini", Modelprovider "OpenAI", ModelID "GPT 4O Mini"')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I create model with details as ModelName "OPENAI GPT 4O Mini", Modelprovider "OpenAI", ModelID "GPT 4O Mini"')
+@given('I create model with details as Model Name "{modelName}", Model Provider "{modelProvider}", ModelID "{modelID}"')
+def step_impl(context, modelName, modelProvider, modelID):
+    llm = llmModel(context.driver)
+    llm.createNewLLMModel(modelName, modelProvider, modelID)
 
 
-@given('I test the Testing End Point for Model "OPENAI GPT 4O Mini"')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I test the Testing End Point for Model "OPENAI GPT 4O Mini"')
+@given('I test the Testing End Point for Model "{modeName}"')
+def testModel(context, modeName):
+    llm = llmModel(context.driver)
+    llm.testingResponse(modeName)
 
 
 @given('I delete the model')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I delete the model')
+    llm = llmModel(context.driver)
+    llm.deleteModel()
 
-
-@given('I create model with details as ModelName "OPENAI GPT 4O", Modelprovider "OpenAI", ModelID "GPT 4O"')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I create model with details as ModelName "OPENAI GPT 4O", Modelprovider "OpenAI", ModelID "GPT 4O"')
-
-
-@given('I test the Testing End Point for Model "OPENAI GPT 4O"')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I test the Testing End Point for Model "OPENAI GPT 4O"')
