@@ -8,7 +8,6 @@ Feature: Create a new LLM model and test end point response and delete it
     And I add a new model
     And I create model with details as Model Name "OPENAI GPT 4O Mini", Model Provider "OpenAI", ModelID "GPT 4O Mini"
     And I test the Testing End Point for Model "OPENAI GPT 4O Mini"
-    And I test the Testing End Point for Model "OPENAI GPT 4O Mini"
     And I delete the model
     And I add a new model
     And I create model with details as Model Name "OPENAI GPT 4O", Model Provider "OpenAI", ModelID "GPT 4O"

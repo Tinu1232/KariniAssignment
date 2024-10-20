@@ -1,17 +1,12 @@
-from Utils.dashboard import dashboard
-from Utils.llmModel import llmModel
-from Utils.login import login
+from actionsLocatorsUtils.Utils.dashboard import dashboard
+from actionsLocatorsUtils.Utils.llmModel import llmModel
+from actionsLocatorsUtils.Utils.login import login
 from behave import given
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-from commons.Commons import Commons
-
-@given('I login to the Karini AI website with email "{email}" and password "{password}"')
-def loginmethod(context, email, password):
-    log = login(context.driver)
-    log.enterEmailID(email, password)
+from actionsLocatorsUtils.commons.Commons import Commons
 
 
 @given('I launch the chrome browser and open Karini AI')
@@ -24,6 +19,12 @@ def launchbrowser(context):
     commons = Commons(context.driver)
     commons.launchURL("https://app.karini.ai/signin")
 
+
+
+@given('I login to the Karini AI website with email "{email}" and password "{password}"')
+def loginmethod(context, email, password):
+    log = login(context.driver)
+    log.enterEmailID(email, password)
 
 @given('I click on Model Hub Icon')
 def clickOnModelHub(context):
@@ -44,7 +45,7 @@ def addNewModel(context):
 
 
 @given('I create model with details as Model Name "{modelName}", Model Provider "{modelProvider}", ModelID "{modelID}"')
-def step_impl(context, modelName, modelProvider, modelID):
+def createNewModel(context, modelName, modelProvider, modelID):
     llm = llmModel(context.driver)
     llm.createNewLLMModel(modelName, modelProvider, modelID)
 
@@ -56,7 +57,7 @@ def testModel(context, modeName):
 
 
 @given('I delete the model')
-def step_impl(context):
+def deleteModel(context):
     llm = llmModel(context.driver)
     llm.deleteModel()
 
