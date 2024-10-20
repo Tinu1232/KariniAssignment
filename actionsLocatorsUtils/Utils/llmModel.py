@@ -3,6 +3,7 @@ from actionsLocatorsUtils.locators.genericLocators import genericLocators
 from actionsLocatorsUtils.locators.modelHubLocators import modelHubLocators
 from selenium.webdriver.common.by import By
 import warnings
+import csv
 
 
 class llmModel:
@@ -83,7 +84,6 @@ class llmModel:
             print("Validation Passed: Dialogbox is open when Test endpoint is clicked")
         else:
             assert False, "Validation Failed: Dialog box is not present"
-        # self.common.zoomOut(self.driver, "75%")
         self.modelHubL.requestTextBox().send_keys("Hello")
         self.common.pause(3)
 
@@ -93,6 +93,8 @@ class llmModel:
         else:
             assert False, "Validation Failed, response is not generated"
         self.common.pause(2)
+        etest = self.driver.find_element(By.XPATH, self.modelHubL.checkResponse())
+        print("response is "+etest.get_attribute('value'))
         self.driver.find_element(By.XPATH, self.modelHubL.closeTestEndPoint()).click()
         try:
 
@@ -102,6 +104,13 @@ class llmModel:
                 warnings.warn("Validation Failed: Test endpoint tab is not closed when Test endpoint close button is clicked")
         except Exception as e:
                 print("Test endpoint tab is closed")
+        csvName = ModelName+".csv"
+        with open(csvName, mode="w") as csvfile:
+            fieldnames = ["ModelName", "Response"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerow({"ModelName": ModelName, "Response": etest.get_attribute('value')})
+
 
 
     def deleteModel(self):

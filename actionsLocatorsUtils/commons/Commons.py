@@ -8,7 +8,7 @@ class Commons:
         self.driver = driver
 
     def waitForVisibility(self, xpath):
-        wait = WebDriverWait(self.driver, 15)
+        wait = WebDriverWait(self.driver, 45)
         return  wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
 
     def pause(self, waitTill):
